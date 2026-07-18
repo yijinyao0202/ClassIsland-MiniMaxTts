@@ -1,0 +1,102 @@
+<ci:SpeechProviderControlBase x:Class="ClassIsland.MiniMaxTts.Views.MiniMaxSpeechSettingsControl"
+                              xmlns="https://github.com/avaloniaui"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                              xmlns:ci="http://classisland.tech/schemas/xaml/core"
+                              mc:Ignorable="d">
+  <StackPanel Spacing="10">
+    <Border Padding="12" CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+      <StackPanel Spacing="4">
+        <TextBlock Text="MiniMax Speech TTS" FontWeight="SemiBold" />
+        <TextBlock Text="使用 MiniMax Speech T2A v2 播放 ClassIsland 的提醒语音。" TextWrapping="Wrap" Opacity="0.75" />
+      </StackPanel>
+    </Border>
+
+    <ci:Field Label="API Key">
+      <TextBox Width="320"
+               PasswordChar="●"
+               Watermark="MiniMax 接口密钥"
+               Text="{Binding ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+    </ci:Field>
+
+    <ci:Field Label="API 地址">
+      <TextBox Width="320"
+               Text="{Binding ApiBaseUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+    </ci:Field>
+
+    <ci:Field Label="模型 ID（支持自定义）">
+      <TextBox Width="320"
+               Watermark="例如 speech-2.8-hd"
+               Text="{Binding Model, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+    </ci:Field>
+
+    <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+      <ComboBox ItemsSource="{Binding ModelOptions}"
+                SelectedItem="{Binding Model, Mode=TwoWay}"
+                PlaceholderText="选择内置或已保存的自定义模型" />
+      <Button Grid.Column="1" Content="保存自定义模型" Click="SaveCustomModel_OnClick" />
+      <Button Grid.Column="2" Content="删除" Click="RemoveCustomModel_OnClick" />
+    </Grid>
+
+    <ci:Field Label="音色 ID（支持自定义）">
+      <TextBox Width="320"
+               Watermark="可输入系统、复刻或生成音色 ID"
+               Text="{Binding VoiceId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+    </ci:Field>
+
+    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+      <ComboBox ItemsSource="{Binding AvailableVoices}"
+                SelectedItem="{Binding SelectedVoice, Mode=TwoWay}"
+                PlaceholderText="点击右侧按钮读取当前账号可用音色">
+        <ComboBox.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding DisplayName}" />
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
+      <Button Grid.Column="1" Content="读取账户音色" Click="RefreshVoices_OnClick" />
+    </Grid>
+
+    <Border Padding="12" CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+      <StackPanel Spacing="8">
+        <TextBlock Text="自定义音色" FontWeight="SemiBold" />
+        <TextBlock Text="可直接填写 MiniMax 复刻音色、生成音色或其它可用 voice_id。保存后会出现在上方音色列表中。"
+                   TextWrapping="Wrap" Opacity="0.75" />
+        <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+          <TextBox Watermark="自定义音色名称（可选）"
+                   Text="{Binding CustomVoiceName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+          <Button Grid.Column="1" Content="保存自定义音色" Click="SaveCustomVoice_OnClick" />
+          <Button Grid.Column="2" Content="删除" Click="RemoveCustomVoice_OnClick" />
+        </Grid>
+      </StackPanel>
+    </Border>
+
+    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+      <ci:Field Label="语速（0.5–2）">
+        <NumericUpDown Minimum="0.5" Maximum="2" Increment="0.1" Value="{Binding Speed, Mode=TwoWay}" />
+      </ci:Field>
+      <ci:Field Grid.Column="1" Label="接口音量（0.1–10）">
+        <NumericUpDown Minimum="0.1" Maximum="10" Increment="0.1" Value="{Binding Volume, Mode=TwoWay}" />
+      </ci:Field>
+      <ci:Field Grid.Column="2" Label="音调（-12–12）">
+        <NumericUpDown Minimum="-12" Maximum="12" Increment="1" Value="{Binding Pitch, Mode=TwoWay}" />
+      </ci:Field>
+    </Grid>
+
+    <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+      <ci:Field Label="情绪">
+        <ComboBox ItemsSource="{Binding EmotionOptions}"
+                  SelectedItem="{Binding Emotion, Mode=TwoWay}"
+                  PlaceholderText="不指定" />
+      </ci:Field>
+      <ci:Field Grid.Column="1" Label="语言增强">
+        <ComboBox ItemsSource="{Binding LanguageBoostOptions}"
+                  SelectedItem="{Binding LanguageBoost, Mode=TwoWay}" />
+      </ci:Field>
+    </Grid>
+
+    <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsBusy}" />
+    <TextBlock Text="{Binding StatusMessage}" TextWrapping="Wrap" Opacity="0.75" />
+  </StackPanel>
+</ci:SpeechProviderControlBase>
