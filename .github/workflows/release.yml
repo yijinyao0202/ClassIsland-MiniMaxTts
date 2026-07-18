@@ -23,8 +23,21 @@ jobs:
       - name: Build plugin
         run: dotnet build ClassIsland.MiniMaxTts.csproj --configuration Release
 
+      - name: Generate release metadata
+        shell: pwsh
+        run: |
+          $packagePath = "cipx/ClassIsland.MiniMaxTts.cipx"
+          $md5 = (Get-FileHash -LiteralPath $packagePath -Algorithm MD5).Hash.ToLowerInvariant()
+          @"
+          ## 开发声明
+
+          该代码由AI生成。
+
+          <!-- CLASSISLAND_PKG_MD5 {"ClassIsland.MiniMaxTts.cipx": "$md5"} -->
+          "@ | Set-Content -LiteralPath release-notes.md -Encoding utf8
+
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          generate_release_notes: true
+          body_path: release-notes.md
           files: cipx/ClassIsland.MiniMaxTts.cipx

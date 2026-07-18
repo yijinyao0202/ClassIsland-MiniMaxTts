@@ -27,3 +27,7 @@
 API Key 仅保存在当前 ClassIsland 用户配置目录的插件设置文件中，不会写入插件包。
 
 MiniMax Speech API 文档：https://platform.minimaxi.com/docs/api-reference/speech-t2a-http
+
+## 开发声明
+
+该代码由AI生成。
