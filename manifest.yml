@@ -4,6 +4,6 @@ description: 将 MiniMax Speech 接入 ClassIsland，作为提醒语音引擎使
 entranceAssembly: "ClassIsland.MiniMaxTts.dll"
 url: https://github.com/yijinyao0202/ClassIsland-MiniMaxTts
 apiVersion: 2.0.0.0
-version: 1.3.0.0
+version: 1.3.0.1
 author: yijinyao0202
 icon: icon.png
